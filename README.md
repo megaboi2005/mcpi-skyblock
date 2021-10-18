@@ -1,5 +1,5 @@
 # mcpi-skyblock
+Skyblock script for Minecraft: Pi Editon
 
-just a random skyblock server thing.
-its not complete yet lol.
+Run it with python3 on a fresh MCPI world, and the script will make randomized islands with ores, trees, stone, etc.
 
