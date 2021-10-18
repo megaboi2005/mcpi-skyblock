@@ -1,17 +1,15 @@
+# Imprort libraries
 import mcpi.minecraft as minecraft
 import math
 import time
 import asyncio
 from random import randrange
 
-
-
-
-
+# Create connection to MCPI and delete all land to leave a island
 mc = minecraft.Minecraft.create()
 mc.setBlocks(-333, -64, -333, 333, 128, 333, 0)
 
-
+# Generate iron
 select = 0
 async def iron(ironx,ironz):
     ironx = randrange(-10,10)
@@ -30,6 +28,7 @@ async def iron(ironx,ironz):
                 mc.setBlock(ironx,21,ironz,0)
                 ironcount +=1
 
+# Generate gold
 async def gold(goldx,goldz):
     goldx = randrange(-5,5)
     goldz = randrange(-5,5)
@@ -48,6 +47,7 @@ async def gold(goldx,goldz):
                 goldcount +=1   
     
 
+# Set island biome
 def island(offset):
     ranbiome = randrange(1,3)
     print(ranbiome)
@@ -86,10 +86,10 @@ def island(offset):
                     mc.setBlock(x+offset,y+4,z-1+ranz,0)
                     mc.setBlock(x+offset,y+4,z+1+ranz,0)
                     mc.setBlock(x+offset,y+4,z+ranz,81)
-                
-            
-    
+
     #print(str(x)+' '+
+    
+# Main loop, makes a island, creates a bionem and add ores
 offset = 0
 ironx = randrange(-10,10)
 ironz = randrange(-10,10)
