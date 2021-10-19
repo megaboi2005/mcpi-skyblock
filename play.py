@@ -1,53 +1,44 @@
-# Imprort libraries
 import mcpi.minecraft as minecraft
 import math
 import time
 import asyncio
 from random import randrange
+import threading
 
-# Create connection to MCPI and delete all land to leave a island
+# delete blocks and connect to the world
 mc = minecraft.Minecraft.create()
 mc.setBlocks(-333, -64, -333, 333, 128, 333, 0)
 
-# Generate iron
-select = 0
-async def iron(ironx,ironz):
-    ironx = randrange(-10,10)
-    ironz = randrange(-10,10)
 
-    ironcount = 0
+# dictionary for generators
+gens = {
+  "iron": 0,
+  "gold": 0,
+  "diamond": 0
+}
+# generators (very buggy )
+def gen(x,y,z,genblock,idwool,amount,genname):
+    print(f'started gen {genname}')
+    gens[genname] = 0
     while True:
-        time.sleep(.1)
-        mc.setBlock(ironx,20,ironz,35)
-        block = mc.getBlock(ironx,21,ironz)
+        
+        
+        mc.setBlock(x,y,z,35,idwool)
+        block = mc.getBlock(x,y+1,z)
         if block == 4:
-            if ironcount == 10:
-                ironcount = 0
-                mc.setBlock(ironx,21,ironz,42)
+            if gens[genname] == amount:
+                gens[genname] = 0
+                mc.setBlock(x,y+1,z,genblock)
+                
             else:
-                mc.setBlock(ironx,21,ironz,0)
-                ironcount +=1
+                mc.setBlock(x,y+1,z,0)
+                gens[genname] +=1
+                time.sleep(.5)
 
-# Generate gold
-async def gold(goldx,goldz):
-    goldx = randrange(-5,5)
-    goldz = randrange(-5,5)
 
-    goldcount = 0
-    while True:
-        time.sleep(.1)
-        mc.setBlock(goldx,20,goldz,14)
-        block = mc.getBlock(goldx,21,goldz)
-        if block == 4:
-            if goldcount == 10:
-                goldcount = 0
-                mc.setBlock(goldx,21,goldz,42,4)
-            else:
-                mc.setBlock(goldx,21,goldz,0)
-                goldcount +=1   
+
     
-
-# Set island biome
+# current island generator
 def island(offset):
     ranbiome = randrange(1,3)
     print(ranbiome)
@@ -86,10 +77,10 @@ def island(offset):
                     mc.setBlock(x+offset,y+4,z-1+ranz,0)
                     mc.setBlock(x+offset,y+4,z+1+ranz,0)
                     mc.setBlock(x+offset,y+4,z+ranz,81)
-
-    #print(str(x)+' '+
+                
+            
     
-# Main loop, makes a island, creates a bionem and add ores
+# useless variables and some important ones lol
 offset = 0
 ironx = randrange(-10,10)
 ironz = randrange(-10,10)
@@ -99,6 +90,7 @@ ironcount = 0
 print(str(ironx) + ' '+ str(ironz))
 repeat = 0
 Run = True
+# runs generator 
 while Run:
     island(offset)
     offset += randrange(5,30)
@@ -107,7 +99,22 @@ while Run:
     if repeat == 10:
         repeat = 0
         Run = False
-        
 
-asyncio.run(iron()) 
-asyncio.run(gold()) 
+
+
+
+#gen(x,y,z,genblock,idwool,amount)
+        #iron
+# threads
+iron = threading.Thread(target=gen, args=(randrange(-10,10),20,randrange(-10,10),42,0,10,'iron'))
+iron.start()
+
+        #gold
+
+gold = threading.Thread(target=gen, args=(randrange(-5,5),10,randrange(-5,5),41,4,5,'gold'))
+gold.start()
+
+        #diamond
+
+diamond = threading.Thread(target=gen, args=(randrange(-20,20),40,randrange(-20,20),57,9,5,'diamonds'))
+diamond.start()
