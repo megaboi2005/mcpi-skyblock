@@ -4,6 +4,12 @@ import time
 import asyncio
 from random import randrange
 import threading
+import random
+seedinput = input('insert seed here (must be an integer): ')
+try:
+    random.seed(seedinput)
+except:
+    random.seed()
 
 # delete blocks and connect to the world
 mc = minecraft.Minecraft.create()
@@ -42,16 +48,16 @@ def gen(x,y,z,genblock,idwool,amount,genname):
 def island(offset):
     ranbiome = randrange(1,3)
     print(ranbiome)
-    ranlen = randrange(3,20)
-    ranz = (randrange(-127,127))
+    ranlen = random.randint(3,20)
+    ranz = random.randint(-127,127)
     for x in range(ranlen):
         
         for z in range((ranlen)):
             
-            y = 2*math.sin(x-randrange(0,100000))*math.cos(z-randrange(0,100000))
+            y = 2*math.sin(x-random.randint(1,100000))*math.cos(z-randrange(0,100000))
             
             
-            rantree = randrange(1,20)
+            rantree = random.randint(0,5)
             if ranbiome == 1:
                 #print('forest biome')
                 mc.setBlock(x+offset,y+1,z+ranz,2)
@@ -106,15 +112,15 @@ while Run:
 #gen(x,y,z,genblock,idwool,amount)
         #iron
 # threads
-iron = threading.Thread(target=gen, args=(randrange(-10,10),20,randrange(-10,10),42,0,10,'iron'))
+iron = threading.Thread(target=gen, args=(random.randint(-50,50),20,random.randint(-10,10),42,0,10,'iron'))
 iron.start()
 
         #gold
 
-gold = threading.Thread(target=gen, args=(randrange(-5,5),10,randrange(-5,5),41,4,5,'gold'))
+gold = threading.Thread(target=gen, args=(random.randint(-5,5),10,random.randint(-5,5),41,4,5,'gold'))
 gold.start()
 
         #diamond
 
-diamond = threading.Thread(target=gen, args=(randrange(-20,20),40,randrange(-20,20),57,9,5,'diamonds'))
+diamond = threading.Thread(target=gen, args=(random.randint(-100,100),40,random.randint(-100,100),57,9,5,'diamonds'))
 diamond.start()
