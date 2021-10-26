@@ -5,6 +5,7 @@ import asyncio
 from random import randrange
 import threading
 import random
+import numpy as np 
 seedinput = input('insert seed here (must be an integer): ')
 try:
     random.seed(seedinput)
@@ -13,7 +14,7 @@ except:
 
 # delete blocks and connect to the world
 mc = minecraft.Minecraft.create()
-mc.setBlocks(-333, -64, -333, 333, 128, 333, 0)
+mc.setBlocks(-128, -64, -128, 128, 128, 128, 0)
 
 
 # dictionary for generators
@@ -46,7 +47,7 @@ def gen(x,y,z,genblock,idwool,amount,genname):
     
 # current island generator
 def island(offset):
-    ranbiome = randrange(1,3)
+    ranbiome = randrange(1,5)
     print(ranbiome)
     ranlen = random.randint(3,20)
     ranz = random.randint(-127,127)
@@ -57,32 +58,45 @@ def island(offset):
             y = 2*math.sin(x-random.randint(1,100000))*math.cos(z-randrange(0,100000))
             
             
-            rantree = random.randint(0,5)
+            rantree = random.randint(0,20)
             if ranbiome == 1:
                 #print('forest biome')
                 mc.setBlock(x+offset,y+1,z+ranz,2)
-                                        
+                mc.setBlocks(x+offset,y,z+ranz,x+offset,y-y-5,z+ranz,1)   
+                
                 if rantree == 5:
                     #print('planting trees')
                     mc.setBlocks(x-2+offset,y+6,z-2+ranz,x+2+offset,y+7,z+2+ranz,18)
                     mc.setBlocks(x-1+offset,y+8,z-1+ranz,x+1+offset,y+9,z+1+ranz,18)
                     mc.setBlocks(x+offset,y,z+ranz,x+offset,y+8,z+ranz,17)
                     mc.setBlock(x+offset,y+8,z+ranz,6)
-                mc.setBlocks(x+offset,y,z+ranz,x+offset,y-y-5,z+ranz,1)
+                if rantree == 10:
+                    mc.setBlock(x+offset,y+2,z+ranz,37)
+                
             if ranbiome == 2:
                 #print('desert biome')
                 y = 0 
                 mc.setBlocks(x+offset,y,z+ranz,x+offset,y-y-5,z+ranz,1)
                 mc.setBlocks(x+offset,y+1,z+ranz,x+offset,y+3,z+ranz,12)
-                if rantree ==5:
+                if rantree == 5:
                     time.sleep(.5)
-                    print('planting cacti')
+                    
                     
                     mc.setBlock(x+offset-1,y+4,z+ranz,0)
                     mc.setBlock(x+offset+1,y+4,z+ranz,0)
                     mc.setBlock(x+offset,y+4,z-1+ranz,0)
                     mc.setBlock(x+offset,y+4,z+1+ranz,0)
                     mc.setBlock(x+offset,y+4,z+ranz,81)
+            if ranbiome == 3:
+                y = 10*math.sin(x-random.randint(1,100000))*math.cos(z-randrange(0,100000))
+                randblock = randrange(1,10)
+                if randblock == 5:
+                    mc.setBlocks(x+offset,y,z+ranz,x+offset,y-y-10,z+ranz,16)
+                
+                else:
+                    mc.setBlocks(x+offset,y,z+ranz,x+offset,y-y-10,z+ranz,1)
+                
+
                 
             
     
