@@ -46,11 +46,11 @@ def gen(x,y,z,genblock,idwool,amount,genname):
 
     
 # current island generator
-def island(offset):
-    ranbiome = randrange(1,5)
+def island(offset,ranbiome,ranz):
+    
     print(ranbiome)
     ranlen = random.randint(3,20)
-    ranz = random.randint(-127,127)
+    
     for x in range(ranlen):
         
         for z in range((ranlen)):
@@ -95,6 +95,7 @@ def island(offset):
                 
                 else:
                     mc.setBlocks(x+offset,y,z+ranz,x+offset,y-y-10,z+ranz,1)
+                    mc.setBlocks(x+offset,y+1,z+ranz,x+offset,y+randrange(1,10),z+ranz,80)
                 
 
                 
@@ -111,8 +112,11 @@ print(str(ironx) + ' '+ str(ironz))
 repeat = 0
 Run = True
 # runs generator 
+island(0,1,0)
 while Run:
-    island(offset)
+    ranz = random.randint(-127,127)
+    ranbiome = randrange(1,4)
+    island(offset,ranbiome,ranz)
     offset += randrange(5,30)
     time.sleep(1)
     repeat += 1
