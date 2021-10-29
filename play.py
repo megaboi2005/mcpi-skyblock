@@ -47,16 +47,18 @@ def gen(x,y,z,genblock,idwool,amount,genname):
     
 # current island generator
 def island(offset,ranbiome,ranz):
-    
+    snowsel = 0
+
     print(ranbiome)
     ranlen = random.randint(3,20)
-    
+
     for x in range(ranlen):
         
         for z in range((ranlen)):
             
             y = 2*math.sin(x-random.randint(1,100000))*math.cos(z-randrange(0,100000))
             
+
             
             rantree = random.randint(0,20)
             if ranbiome == 1:
@@ -91,15 +93,35 @@ def island(offset,ranbiome,ranz):
                 y = 10*math.sin(x-random.randint(1,100000))*math.cos(z-randrange(0,100000))
                 randblock = randrange(1,10)
                 if randblock == 5:
-                    mc.setBlocks(x+offset,y,z+ranz,x+offset,y-y-10,z+ranz,16)
-                
-                else:
-                    mc.setBlocks(x+offset,y,z+ranz,x+offset,y-y-10,z+ranz,1)
-                    mc.setBlocks(x+offset,y+1,z+ranz,x+offset,y+randrange(1,10),z+ranz,80)
-                
+                    mc.setBlocks(x+offset,y,z+ranz,x+offset,y-y-randrange(10,20),z+ranz,16)
 
                 
-            
+                else:
+                    mc.setBlocks(x+offset,y,z+ranz,x+offset,y-y-randrange(10,20),z+ranz,1)
+                    mc.setBlocks(x+offset,y+1,z+ranz,x+offset,y+randrange(1,10),z+ranz,80)
+                
+            if ranbiome == 4:
+                randblock = randrange(1,10)
+                mc.setBlock(x+offset,y+1,z+ranz,87)
+                mc.setBlocks(x+offset,y,z+ranz,x+offset,y-y-5,z+ranz,87)  
+                randblock = randrange(1,10)
+                if randblock == 5:
+                    mc.setBlocks(x+offset,y,z+ranz,x+offset,y-y-10,z+ranz,10)
+                if randblock == 2:
+                    mc.setBlock(x+offset,y+2,z+ranz,40)
+            if ranbiome == 5:
+                y = y/15
+                randblock = randrange(1,10)
+                mc.setBlocks(x+offset,y+1,z+ranz,x+offset,y+1+randrange(0,1),z+ranz,80)
+                if z == ranlen-1 or x == ranlen-1 or z == ranlen-ranlen or x == ranlen-ranlen: 
+                    mc.setBlocks(x+offset,y,z+ranz,x+offset,y-randrange(10,20),z+ranz,80)
+                else:
+                    
+                    mc.setBlocks(x+offset,y,z+ranz,x+offset,y-randrange(10,20),z+ranz,1)
+                
+                randblock = randrange(1,10)
+                
+                
     
 # useless variables and some important ones lol
 offset = 0
@@ -115,12 +137,12 @@ Run = True
 island(0,1,0)
 while Run:
     ranz = random.randint(-127,127)
-    ranbiome = randrange(1,4)
+    ranbiome = randrange(1,6)
     island(offset,ranbiome,ranz)
-    offset += randrange(5,30)
+    offset = randrange(-127,127)
     time.sleep(1)
     repeat += 1
-    if repeat == 10:
+    if repeat == 20:
         repeat = 0
         Run = False
 
