@@ -1,4 +1,4 @@
-import mcpi.minecraft as minecraft
+from mcpi.minecraft import Minecraft
 import math
 import time
 import asyncio
@@ -13,8 +13,8 @@ except:
     random.seed()
 
 # delete blocks and connect to the world
-mc = minecraft.Minecraft.create()
-mc.setBlocks(-128, -64, -128, 128, 128, 128, 0)
+mc = Minecraft.create()
+mc.setBlocks(-256, -64, -256, 256, 128, 256, 0)
 
 
 # dictionary for generators
@@ -62,6 +62,8 @@ def island(offset,ranbiome,ranz):
             
             rantree = random.randint(0,20)
             if ranbiome == 1:
+                randore = randrange(1,10)
+                
                 #print('forest biome')
                 mc.setBlock(x+offset,y+1,z+ranz,2)
                 mc.setBlocks(x+offset,y,z+ranz,x+offset,y-y-5,z+ranz,1)   
@@ -74,7 +76,26 @@ def island(offset,ranbiome,ranz):
                     mc.setBlock(x+offset,y+8,z+ranz,6)
                 if rantree == 10:
                     mc.setBlock(x+offset,y+2,z+ranz,37)
-                
+                if randore == 5:
+                    xloc = x + offset
+                    zloc = z + ranz
+                    blockcheck = mc.getBlock(xloc,y-3,zloc)
+                    time.sleep(1)
+                    if blockcheck == 1:
+                        mc.setBlock(x+offset,y-3,z+ranz,21)
+                        blockcheck = mc.getBlock(xloc,y-2,zloc)
+                        if blockcheck == 1:
+                            mc.setBlock(x+offset,y-2,z+ranz,21)
+                        blockcheck = mc.getBlock(xloc+1,y-3,zloc)
+                        if blockcheck == 1:
+                            mc.setBlock(x+offset+1,y-2,z+ranz,21)
+                        blockcheck = mc.getBlock(xloc,y-3,zloc+1)
+                        if blockcheck == 1:
+                            mc.setBlock(x+offset,y-2,z+ranz+1,21)
+                            
+                        
+                        
+                    
             if ranbiome == 2:
                 #print('desert biome')
                 y = 0 
@@ -90,15 +111,28 @@ def island(offset,ranbiome,ranz):
                     mc.setBlock(x+offset,y+4,z+1+ranz,0)
                     mc.setBlock(x+offset,y+4,z+ranz,81)
             if ranbiome == 3:
+                randore = randrange(1,5)
                 y = 10*math.sin(x-random.randint(1,100000))*math.cos(z-randrange(0,100000))
-                randblock = randrange(1,10)
-                if randblock == 5:
-                    mc.setBlocks(x+offset,y,z+ranz,x+offset,y-y-randrange(10,20),z+ranz,16)
-
                 
-                else:
-                    mc.setBlocks(x+offset,y,z+ranz,x+offset,y-y-randrange(10,20),z+ranz,1)
-                    mc.setBlocks(x+offset,y+1,z+ranz,x+offset,y+randrange(1,10),z+ranz,80)
+
+                mc.setBlocks(x+offset,y,z+ranz,x+offset,y-y-randrange(10,20),z+ranz,1)
+                mc.setBlocks(x+offset,y+1,z+ranz,x+offset,y+randrange(1,10),z+ranz,80)
+                if randore == 2:
+                    xloc = x + offset
+                    zloc = z + ranz
+                    blockcheck = mc.getBlock(xloc,y-3,zloc)
+                    time.sleep(1)
+                    if blockcheck == 1:
+                        mc.setBlock(x+offset,y-3,z+ranz,16)
+                        blockcheck = mc.getBlock(xloc,y-2,zloc)
+                        if blockcheck == 1:
+                            mc.setBlock(x+offset,y-2,z+ranz,16)
+                            blockcheck = mc.getBlock(xloc+1,y-3,zloc)
+                            if blockcheck == 1:
+                                mc.setBlock(x+offset+1,y-2,z+ranz,16)
+                                blockcheck = mc.getBlock(xloc,y-3,zloc+1)
+                                if blockcheck == 1:
+                                    mc.setBlock(x+offset,y-2,z+ranz+1,16)
                 
             if ranbiome == 4:
                 randblock = randrange(1,10)
@@ -120,7 +154,8 @@ def island(offset,ranbiome,ranz):
                     mc.setBlocks(x+offset,y,z+ranz,x+offset,y-randrange(10,20),z+ranz,1)
                 
                 randblock = randrange(1,10)
-                
+
+                    
                 
     
 # useless variables and some important ones lol
@@ -134,7 +169,7 @@ print(str(ironx) + ' '+ str(ironz))
 repeat = 0
 Run = True
 # runs generator 
-island(0,1,0)
+island(0,3,0)
 while Run:
     ranz = random.randint(-127,127)
     ranbiome = randrange(1,6)
