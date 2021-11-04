@@ -56,18 +56,38 @@ def island(offset,ranbiome,ranz):
         
         for z in range((ranlen)):
             
-            y = 2*math.sin(x-random.randint(1,100000))*math.cos(z-randrange(0,100000))
+            y = math.sin(2*x-random.randint(1,100000))*math.cos(z-randrange(0,100000)/math.pi)
             
 
             
             rantree = random.randint(0,20)
             if ranbiome == 1:
                 randore = randrange(1,10)
-                
+                zloc = z+ranz
+                xloc = x+offset
                 #print('forest biome')
                 mc.setBlock(x+offset,y+1,z+ranz,2)
                 mc.setBlocks(x+offset,y,z+ranz,x+offset,y-y-5,z+ranz,1)   
                 
+                blockcheck2 = mc.getBlock(xloc+1,y+1,zloc)
+                if not z == ranlen or x == ranlen or z == ranlen-ranlen or x == ranlen-ranlen:  
+                    
+                    if blockcheck2 == 0:
+                        mc.setBlock(xloc+1,y,zloc,2)
+                        mc.setBlock(xloc+1,y-1,zloc,3)
+                    blockcheck2 = mc.getBlock(xloc,y+1,zloc+1)
+                    if blockcheck2 == 0:
+                        mc.setBlock(xloc,y,zloc+1,2)
+                        mc.setBlock(xloc,y-1,zloc+1,3)
+                    blockcheck2 = mc.getBlock(xloc-1,y+1,zloc)
+                    if blockcheck2 == 0:
+                        mc.setBlock(xloc-1,y,zloc,2)
+                        mc.setBlock(xloc-1,y-1,zloc,3)
+                    blockcheck2 = mc.getBlock(xloc,y+1,zloc-1)
+                    if blockcheck2 == 0:
+                        mc.setBlock(xloc,y,zloc-1,2)
+                        mc.setBlock(xloc,y-1,zloc-1,3)
+
                 if rantree == 5:
                     #print('planting trees')
                     mc.setBlocks(x-2+offset,y+6,z-2+ranz,x+2+offset,y+7,z+2+ranz,18)
@@ -80,7 +100,7 @@ def island(offset,ranbiome,ranz):
                     xloc = x + offset
                     zloc = z + ranz
                     blockcheck = mc.getBlock(xloc,y-3,zloc)
-                    time.sleep(1)
+                    
                     if blockcheck == 1:
                         mc.setBlock(x+offset,y-3,z+ranz,21)
                         blockcheck = mc.getBlock(xloc,y-2,zloc)
@@ -92,9 +112,7 @@ def island(offset,ranbiome,ranz):
                         blockcheck = mc.getBlock(xloc,y-3,zloc+1)
                         if blockcheck == 1:
                             mc.setBlock(x+offset,y-2,z+ranz+1,21)
-                            
-                        
-                        
+
                     
             if ranbiome == 2:
                 #print('desert biome')
@@ -143,6 +161,8 @@ def island(offset,ranbiome,ranz):
                     mc.setBlocks(x+offset,y,z+ranz,x+offset,y-y-10,z+ranz,10)
                 if randblock == 2:
                     mc.setBlock(x+offset,y+2,z+ranz,40)
+                if randblock == 3:
+                    mc.setBlock(x+offset,y+2,z+ranz,39)
             if ranbiome == 5:
                 y = y/15
                 randblock = randrange(1,10)
@@ -169,7 +189,7 @@ print(str(ironx) + ' '+ str(ironz))
 repeat = 0
 Run = True
 # runs generator 
-island(0,3,0)
+island(0,1,0)
 while Run:
     ranz = random.randint(-127,127)
     ranbiome = randrange(1,6)
