@@ -244,7 +244,7 @@ print(str(ironx) + ' '+ str(ironz))
 repeat = 0
 Run = True
 # runs generator 
-island(0,5,0)
+island(0,1,0)
 while Run:
     ranz = random.randint(-127,127)
     ranbiome = randrange(1,7)
